@@ -4,6 +4,9 @@ const router = express.Router();
 const path = require('path');
 const fs = require('fs');
 const formidable = require('formidable');
+const cloudinary = require('cloudinary').v2;
+//cloudinary.config(process.env.CLOUDINARY_URL);
+
 
 const bodyParser = require('body-parser');
 var urlParser = bodyParser.urlencoded({extended:false});
@@ -57,7 +60,7 @@ router.post('/player', urlParser, async function (req, res)
         const id = parsed.fields.id;
         const files = parsed.obj.file;
 
-        const avatarsFile = path.join(__dirname, '..', `/avatars/${id}/`);
+        /*const avatarsFile = path.join(__dirname, '..', `/avatars/${id}/`);
         try
         {
             let oldFiles = fs.readdirSync(avatarsFile);
@@ -67,25 +70,35 @@ router.post('/player', urlParser, async function (req, res)
         catch (err)
         {
             fs.mkdirSync(avatarsFile);
-        }
+        }*/
 
         for (let i = 0; i < files.length; i++)
         {
             const file = files[i];
             const name = names[i];
+            cloudinary.uploader.upload(file.path,
+            {
+               folder: `/${id}/`,
+               format: 'jpg',
+               filename_override: `${name}.jpg`
+            }, (result, err) =>
+            {
+                if (err)
+                    console.log(err);
+            });
 
-            const oldPath = file.path;
-            const newPath = path.join(__dirname, '..', `/avatars/${id}/${name}${path.extname(file.name)}`);
+            //const oldPath = file.path;
+            //const newPath = path.join(__dirname, '..', `/avatars/${id}/${name}${path.extname(file.name)}`);
 
-            fs.renameSync(oldPath, newPath);
+            //fs.renameSync(oldPath, newPath);
         }
 
         res.code(200).send('');
     }
     catch (err)
     {
-        res.status(500).send('Error saving files.');
         console.log(err);
+        res.status(500).send('Error saving files.');
     }
     
 });
@@ -94,23 +107,25 @@ function loadAvatar(req, res, name)
 {
     try
     {
-        let id = req.query.id;
-        let p = path.join(__dirname, '..', `/avatars/${id}/`);
-        let files = fs.readdirSync(p);
+        // let id = req.query.id;
+        // let p = path.join(__dirname, '..', `/avatars/${id}/`);
+        // let files = fs.readdirSync(p);
     
-        for (let i = 0; i < files.length; i++)
-        {
-            const file = path.parse(files[i]);
-            if (file.name === name)
-            {
-                p += file.base;
-                continue;
-            }
-        }
-        res.sendFile(p);
+        // for (let i = 0; i < files.length; i++)
+        // {
+        //     const file = path.parse(files[i]);
+        //     if (file.name === name)
+        //     {
+        //         p += file.base;
+        //         continue;
+        //     }
+        // }
+
+        res.sendFile(cloudinary.url(`/${id}/${name}.jpg`));
     }
     catch (err)
     {
+        console.log(err);
         res.status(500).send('Could not load image');
     }
 }

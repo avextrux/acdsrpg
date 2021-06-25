@@ -9,6 +9,8 @@ const mwinsAvatar = document.getElementById('mwinsaneAvatarFile');
 
 const uploadAvatarModal = new bootstrap.Modal(document.getElementById('uploadAvatar'));
 
+const avatar = $('#avatar');
+
 for (let i = 0; i < attributeStatus.length; i++)
 {
     const stat = attributeStatus[i];
@@ -34,7 +36,11 @@ async function uploadAvatar(ev)
         contentType: false,
         processData: false,
         data: formData,
-        success: data => location.reload(),
+        success: data =>
+        {
+            let url = data.url;
+            avatar.attr('src', url);
+        },
         error: (err) =>
         {
             console.log(err);
