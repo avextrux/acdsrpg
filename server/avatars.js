@@ -55,85 +55,35 @@ router.post('/player', urlParser, async function (req, res)
         });
     });
 
-    try
+    const id = parsed.fields.id;
+    const files = parsed.obj.file;
+    let count = 0;
+    for (let i = 0; i < files.length; i++)
     {
-        const id = parsed.fields.id;
-        const files = parsed.obj.file;
-
-        /*const avatarsFile = path.join(__dirname, '..', `/avatars/${id}/`);
-        try
+        const file = files[i];
+        const name = names[i];
+        cloudinary.uploader.upload(file.path,
         {
-            let oldFiles = fs.readdirSync(avatarsFile);
-            for (let i = 0; i < oldFiles.length; i++)
-                fs.unlinkSync(path.join(avatarsFile, oldFiles[i]));
-        }
-        catch (err)
+           folder: `${id}/`,
+           format: 'jpg',
+           filename_override: `${name}.jpg`,
+           unique_filename: false,
+           use_filename: true,
+           async: true
+        }, (result, err) =>
         {
-            fs.mkdirSync(avatarsFile);
-        }*/
-        let count = 0;
-        for (let i = 0; i < files.length; i++)
-        {
-            const file = files[i];
-            const name = names[i];
-            cloudinary.uploader.upload(file.path,
-            {
-               folder: `${id}/`,
-               format: 'jpg',
-               filename_override: `${name}.jpg`,
-               unique_filename: false,
-               use_filename: true,
-               async: true
-            }, (result, err) =>
-            {
-                count++;
-                console.log(count);
-                if (err)
-                    return console.log("err: " + err);
-                if (count === files.length)
-                    res.status(200).send('');
-            });
-
-            //const oldPath = file.path;
-            //const newPath = path.join(__dirname, '..', `/avatars/${id}/${name}${path.extname(file.name)}`);
-
-            //fs.renameSync(oldPath, newPath);
-        }
+            count++;
+            if (count === files.length)
+                res.status(200).send('');
+        });
     }
-    catch (err)
-    {
-        console.log(err);
-        res.status(500).send('Error saving files.');
-    }
-    
 });
 
 function loadAvatar(req, res, name)
 {
-    try
-    {
-        let id = req.query.id;
-        // let p = path.join(__dirname, '..', `/avatars/${id}/`);
-        // let files = fs.readdirSync(p);
-    
-        // for (let i = 0; i < files.length; i++)
-        // {
-        //     const file = path.parse(files[i]);
-        //     if (file.name === name)
-        //     {
-        //         p += file.base;
-        //         continue;
-        //     }
-        // }
-
-        let url = cloudinary.url(`${id}/${name}`);
-        res.send({url});
-    }
-    catch (err)
-    {
-        console.log(err);
-        res.status(500).send('Could not load image');
-    }
+    let id = req.session.playerID;
+    let url = cloudinary.url(`${id}/${name}`, {secure: true});
+    res.send({url});
 }
 
 module.exports = router;
