@@ -71,7 +71,7 @@ router.post('/player', urlParser, async function (req, res)
         {
             fs.mkdirSync(avatarsFile);
         }*/
-
+        let count = 0;
         for (let i = 0; i < files.length; i++)
         {
             const file = files[i];
@@ -80,11 +80,18 @@ router.post('/player', urlParser, async function (req, res)
             {
                folder: `${id}/`,
                format: 'jpg',
-               filename_override: `${name}.jpg`
+               filename_override: `${name}.jpg`,
+               unique_filename: false,
+               use_filename: true,
+               async: true
             }, (result, err) =>
             {
                 if (err)
-                    console.log(err);
+                    return console.log(err);
+                    
+                count++;
+                if (count === names.length)
+                    res.status(200).send('');
             });
 
             //const oldPath = file.path;
@@ -92,8 +99,6 @@ router.post('/player', urlParser, async function (req, res)
 
             //fs.renameSync(oldPath, newPath);
         }
-
-        res.status(200).send('');
     }
     catch (err)
     {
