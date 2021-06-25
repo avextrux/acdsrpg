@@ -13,29 +13,18 @@ const dataLength = 15;
 
 const disconnectingSessions = new Map();
 
-io.on('connect', socket =>
-{
-    let disconnecting = disconnectingSessions.get(socket.handshake.address);
-    if (disconnecting)
-    {
-        console.log('reconnected ' + socket.handshake.address);
-        clearTimeout(disconnecting);
-    }
-});
-
 router.get('/1', (req, res) =>
 {
     let session = req.session;
+    let playerID = session.playerID;
 
-    if (!session.address)
+    if (!playerID)
     {
         return res.render('rejected',
         {
             message: 'Sessão não está ativa. Você se esqueceu de logar?'
         });
     }
-
-    let playerID = session.playerID;
 
     sheetData = {sheet_id: playerID};
 
@@ -500,12 +489,37 @@ router.post('/player/attributestatus', urlParser, async function (req, res)
     res.status(code).send(result);
 });
 
-router.get('/player/session', (req, res) =>
+router.get('/player/session/retake', (req, res) =>
 {
-    console.log('disconnecting ' + req.socket.remoteAddress);
-    //let disconnecting = setTimeout(() => req.session.destroy(), 5000);
-    let disconnecting = setTimeout(() => {req.session.destroy(); console.log('disconnected');}, 5000);
-    disconnectingSessions.set(req.socket.remoteAddress, disconnecting);
+    let playerID = req.session.playerID;
+    
+    console.log('RECALL ' + playerID);
+    let disconnecting = disconnectingSessions.get(playerID);
+    if (disconnecting)
+    {
+        console.log('RECONNECTED ' + playerID);
+        clearTimeout(disconnecting);
+    }
+    disconnectingSessions.delete(playerID);
+});
+
+router.get('/player/session/destroy', (req, res) =>
+{
+    let playerID = req.session.playerID;
+
+    if (playerID === undefined)
+        return res.status(204).send('');
+
+    console.log('DISCONNECTING ' + playerID);
+    let disconnecting = setTimeout(() =>
+    {
+        req.session.destroy();
+        disconnectingSessions.delete(playerID);
+        console.log(playerID + " DISCONNECTED");
+    }, 5000);
+
+    disconnectingSessions.set(playerID, disconnecting);
+
     res.status(200).send('ok');
 });
 

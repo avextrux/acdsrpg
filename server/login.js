@@ -48,7 +48,7 @@ router.post('/', urlParser, async function (req, res)
     
     let session = req.session;
 
-    if (session.address)
+    if (session.playerID)
     {
         return res.render('login',
         {
@@ -57,7 +57,6 @@ router.post('/', urlParser, async function (req, res)
         });
     }
     
-    session.address = req.socket.remoteAddress;
     session.playerID = id;
 
     if (result[0].name === 'keeper')

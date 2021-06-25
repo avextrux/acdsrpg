@@ -255,7 +255,12 @@ function resolveDice(dice, arr)
     }
 }
 
+$(document).ready(() =>
+{
+    $.get('/sheet/player/session/retake');
+});
+
 $(window).on('beforeunload', ev =>
 {
-    $.get('/sheet/player/session');
+    $.get('/sheet/player/session/destroy');
 });
