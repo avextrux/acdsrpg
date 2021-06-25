@@ -45,7 +45,7 @@ router.get('/', async function (req, res)
         let items = await db.promiseQuery(sql, post).catch(err => console.log(err));
         
         sql = "SELECT characteristic_id, value FROM player_characteristic WHERE player_id = ? AND characteristic_id IN (SELECT characteristic_id FROM characteristic WHERE name = 'Movimento')";
-        let char = await db.promiseQueryry(sql, post).catch(err => console.log(err));
+        let char = await db.promiseQuery(sql, post).catch(err => console.log(err));
         let mov = char[0].value;
         let charID = char[0].characteristic_id;
 
