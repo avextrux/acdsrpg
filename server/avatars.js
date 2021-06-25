@@ -73,8 +73,12 @@ router.post('/player', urlParser, async function (req, res)
         }, (result, err) =>
         {
             count++;
+            console.log('uploaded ' + count);
             if (count === files.length)
+            {
                 res.status(200).send('');
+                console.log('uploaded all');
+            }
         });
     }
 });
