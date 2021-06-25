@@ -121,7 +121,8 @@ function loadAvatar(req, res, name)
         //     }
         // }
 
-        res.send(cloudinary.url(`/${id}/${name}.jpg`));
+        let url = cloudinary.url(`/${id}/${name}.jpg`);
+        res.send({url});
     }
     catch (err)
     {

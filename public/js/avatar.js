@@ -69,29 +69,24 @@ function attributeStatusChange(id, check)
 
 function evaluateAvatar()
 {
+    let src;
+
     if (boxes[0].checked)
-    {
-        avatar.attr('src', `/avatars/unconscious?id=${playerID}`);
-    }
+        src = `/avatars/unconscious?id=${playerID}`;
     else if (boxes[1].checked)
-    {
         if (boxes[2].checked || boxes[3].checked)
-        {
-            avatar.attr('src', `/avatars/mwinsane?id=${playerID}`);
-        }
+            src = `/avatars/mwinsane?id=${playerID}`;
         else
-        {
-            avatar.attr('src', `/avatars/mw?id=${playerID}`);
-        }
-    }
+            src = `/avatars/mw?id=${playerID}`;
     else if (boxes[2].checked || boxes[3].checked)
-    {
-        avatar.attr('src', `/avatars/insane?id=${playerID}`);
-    }
+        src = `/avatars/insane?id=${playerID}`;
     else
+        src = `/avatars/def?id=${playerID}`;
+    
+    $.get(src, data =>
     {
-        avatar.attr('src', `/avatars/def?id=${playerID}`);
-    }
+        avatar.attr('src', data.url);
+    });
 }
 
 function generalDiceClick()
