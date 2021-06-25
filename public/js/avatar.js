@@ -71,26 +71,26 @@ function evaluateAvatar()
 {
     if (boxes[0].checked)
     {
-        avatar.src = `/avatars/unconscious?id=${playerID}`;
+        avatar.attr('src', `/avatars/unconscious?id=${playerID}`);
     }
     else if (boxes[1].checked)
     {
         if (boxes[2].checked || boxes[3].checked)
         {
-            avatar.src = `/avatars/mwinsane?id=${playerID}`;
+            avatar.attr('src', `/avatars/mwinsane?id=${playerID}`);
         }
         else
         {
-            avatar.src = `/avatars/mw?id=${playerID}`;
+            avatar.attr('src', `/avatars/mw?id=${playerID}`);
         }
     }
     else if (boxes[2].checked || boxes[3].checked)
     {
-        avatar.src = `/avatars/insane?id=${playerID}`;
+        avatar.attr('src', `/avatars/insane?id=${playerID}`);
     }
     else
     {
-        avatar.src = `/avatars/def?id=${playerID}`;
+        avatar.attr('src', `/avatars/def?id=${playerID}`);
     }
 }
 
