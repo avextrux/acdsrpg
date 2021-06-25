@@ -1,11 +1,13 @@
 const boxes = [];
+let def, unc, mw, ins, mwins;
+
 const attributeStatus = document.getElementsByClassName('acds-attribute-status');
 
-const defAvatar = document.getElementById('defAvatarFile');
-const uncAvatar = document.getElementById('unconsciousAvatarFile');
-const mwAvatar = document.getElementById('mwAvatarFile');
-const insAvatar = document.getElementById('insaneAvatarFile');
-const mwinsAvatar = document.getElementById('mwinsaneAvatarFile');
+const defAvatarFile = document.getElementById('defAvatarFile');
+const uncAvatarFile = document.getElementById('unconsciousAvatarFile');
+const mwAvatarFile = document.getElementById('mwAvatarFile');
+const insAvatarFile = document.getElementById('insaneAvatarFile');
+const mwinsAvatarFile = document.getElementById('mwinsaneAvatarFile');
 
 const uploadAvatarModal = new bootstrap.Modal(document.getElementById('uploadAvatar'));
 
@@ -17,18 +19,42 @@ for (let i = 0; i < attributeStatus.length; i++)
     const stat = attributeStatus[i];
     boxes.push(stat);
 }
-evaluateAvatar();
+
+$.get('/avatars/def', data =>
+{
+    def = data.url;
+});
+
+$.get('/avatars/unconscious', data =>
+{
+    unc = data.url;
+});
+
+$.get('/avatars/mw', data =>
+{
+    mw = data.url;
+});
+
+$.get('/avatars/insane', data =>
+{
+    ins = data.url;
+});
+
+$.get('/avatars/mwinsane', data =>
+{
+    mwins = data.url;
+});
 
 async function uploadAvatar(ev)
 {
     ev.preventDefault();
     let formData = new FormData();
     formData.append('id', playerID);
-    formData.append('file', defAvatar.files[0]);
-    formData.append('file', uncAvatar.files[0]);
-    formData.append('file', mwAvatar.files[0]);
-    formData.append('file', insAvatar.files[0]);
-    formData.append('file', mwinsAvatar.files[0]);
+    formData.append('file', defAvatarFile.files[0]);
+    formData.append('file', uncAvatarFile.files[0]);
+    formData.append('file', mwAvatarFile.files[0]);
+    formData.append('file', insAvatarFile.files[0]);
+    formData.append('file', mwinsAvatarFile.files[0]);
 
     $.ajax('/avatars/player',
     {
@@ -68,31 +94,20 @@ function attributeStatusChange(id, check)
     });
 }
 
+evaluateAvatar();
 function evaluateAvatar()
 {
-    let src;
-
     if (boxes[0].checked)
-        src = `/avatars/unconscious?id=${playerID}`;
+        avatar.attr('src', unc);
     else if (boxes[1].checked)
         if (boxes[2].checked || boxes[3].checked)
-            src = `/avatars/mwinsane?id=${playerID}`;
+            avatar.attr('src', mwins);
         else
-            src = `/avatars/mw?id=${playerID}`;
+            avatar.attr('src', mw);
     else if (boxes[2].checked || boxes[3].checked)
-        src = `/avatars/insane?id=${playerID}`;
+        avatar.attr('src', ins);
     else
-        src = `/avatars/def?id=${playerID}`;
-
-    if (src === oldSrc)
-        return;
-    
-    oldSrc = src;
-
-    $.get(src, data =>
-    {
-        avatar.attr('src', data.url);
-    });
+        avatar.attr('src', def);
 }
 
 function generalDiceClick()
