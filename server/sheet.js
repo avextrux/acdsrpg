@@ -195,16 +195,6 @@ function checkSendSheet(res)
 
 router.get('/2', async function (req, res)
 {
-    let session = req.session;
-
-    if (!session.address)
-    {
-        return res.render('rejected',
-        {
-            message: 'Sessão não está ativa. Você se esqueceu de logar?'
-        });
-    }
-
     let playerID = session.playerID;
 
     let sql = "SELECT info.info_id, info.name, player_info.value  " +
@@ -492,7 +482,7 @@ router.post('/player/attributestatus', urlParser, async function (req, res)
 router.get('/player/session/retake', (req, res) =>
 {
     let playerID = req.session.playerID;
-    
+
     console.log('RECALL ' + playerID);
     let disconnecting = disconnectingSessions.get(playerID);
     if (disconnecting)
@@ -501,6 +491,8 @@ router.get('/player/session/retake', (req, res) =>
         clearTimeout(disconnecting);
     }
     disconnectingSessions.delete(playerID);
+
+    res.status(200).send('ok');
 });
 
 router.get('/player/session/destroy', (req, res) =>

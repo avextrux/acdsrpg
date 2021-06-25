@@ -80,7 +80,7 @@ router.post('/player', urlParser, async function (req, res)
             fs.renameSync(oldPath, newPath);
         }
 
-        res.send('200');
+        res.code(200).send('');
     }
     catch (err)
     {
