@@ -13,12 +13,18 @@ const dataLength = 15;
 
 const disconnectingSessions = new Map();
 
+io.on('connect', socket =>
+{
+    let disconnecting = disconnectingSessions.get(socket.handshake.address);
+    if (disconnecting)
+    {
+        console.log('reconnected ' + socket.handshake.address);
+        clearTimeout(disconnecting);
+    }
+});
+
 router.get('/1', (req, res) =>
 {
-    let disconnecting = disconnectingSessions.get(req.socket.remoteAddress);
-    if (disconnecting)
-        clearTimeout(disconnecting);
-
     let session = req.session;
 
     if (!session.address)
@@ -494,9 +500,11 @@ router.post('/player/attributestatus', urlParser, async function (req, res)
     res.status(code).send(result);
 });
 
-router.delete('/player/session', (req, res) =>
+router.get('/player/session', (req, res) =>
 {
-    let disconnecting = setTimeout(() => req.session.destroy(), 5000);
+    console.log('disconnecting ' + req.socket.remoteAddress);
+    //let disconnecting = setTimeout(() => req.session.destroy(), 5000);
+    let disconnecting = setTimeout(() => {req.session.destroy(); console.log('disconnected');}, 5000);
     disconnectingSessions.set(req.socket.remoteAddress, disconnecting);
     res.status(200).send('ok');
 });

@@ -48,7 +48,7 @@ router.post('/', urlParser, async function (req, res)
     
     let session = req.session;
 
-    if (session.address && session.address !== req.socket.remoteAddress)
+    if (session.address)
     {
         return res.render('login',
         {

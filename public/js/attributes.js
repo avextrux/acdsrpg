@@ -255,7 +255,7 @@ function resolveDice(dice, arr)
     }
 }
 
-$(window).unload(() =>
+$(window).on('beforeunload', ev =>
 {
-    $.delete('/sheet/player/session');
+    $.get('/sheet/player/session');
 });
