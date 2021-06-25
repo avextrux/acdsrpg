@@ -1,13 +1,22 @@
 const mysql = require('mysql');
 
-const conn = mysql.createConnection(
+let config;
+console.log(process.env.JAWSDB_URL);
+if(process.env.JAWSDB_URL)
 {
-    host: 'lfmerukkeiac5y5w.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-    user: 'aftv5i02ov02idk9',
-    password: 'ux4qxj0gxvk6wntc',
-    port: 3306,
-    database: 'cp9g1ps09nx0p250'
-});
+    config = process.env.JAWSDB_URL;
+}
+else
+{
+    config =
+    {
+        user: 'root',
+        password: '',
+        database: 'acds'
+    }
+}
+
+const conn = mysql.createConnection(config);
 
 conn.connect(err =>
 {

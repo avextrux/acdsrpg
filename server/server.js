@@ -28,6 +28,8 @@ io.on('connection', socket =>
         clearTimeout(timeout);
         disconnectingSessions.delete(address);
     }
+
+    console.log(address);
     
     socket.on('disconnect', reason =>
     {
