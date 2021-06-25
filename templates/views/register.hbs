@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>As Crônicas das Sombras</title>
+    </head>
+    <body>
+        <h1>Registrar</h1>
+        <form method="POST">
+            <input type="text" placeholder="Login" name="login" id="login" required/>
+            <input type="password" placeholder="Senha" name="password" id="password" required/>
+            <input type="password" placeholder="Confirmar Senha" id="confirmpassword" required/>
+            {{#if keeper}}
+            <input type="password" placeholder="Chave do Mestre" name="keeperKey" id="keeperKey" required/>
+            {{/if}}
+            <br>
+            <br>
+            <input type="submit" value="Registrar"/>
+        </form>
+        <p>Já possui cadastro? <a href="/login">Conectar-se</a></p>
+        {{#if message}}
+        <p style="color: {{color}};">{{message}}</p>
+        {{/if}}
+        
+        <script>
+            var password = document.getElementById("password");
+            var confirm_password = document.getElementById("confirmpassword");
+
+            function validatePassword()
+            {
+                if(password.value != confirm_password.value)
+                    confirm_password.setCustomValidity("As senhas não coincidem.");
+                else
+                    confirm_password.setCustomValidity('');
+            }
+
+            password.onchange = validatePassword;
+            confirm_password.onkeyup = validatePassword;
+
+            {{#if redirectTime}}
+            setTimeout(() =>
+            {
+                window.location = '/login';
+            }, {{redirectTime}});
+            {{/if}}
+        </script>
+    </body>
+</html>

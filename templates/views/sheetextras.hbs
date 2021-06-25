@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="icon" href="/assets/icon.png">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC&family=Cinzel:wght@500&display=swap"
+        rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>const socket = io(); const playerID = {{ sheet_id }}</script>
+
+    <title>As Crônicas das Sombras</title>
+    <style type="text/css"></style>
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
+            <div id="failureToast" class="toast hide acds-element" role="alert" aria-live="assertive"
+                aria-atomic="true">
+                <div class="toast-header">
+                    <span><i class="bi bi-x-circle" style="color: red;"></i></span>
+                    <strong class="me-auto">Erro</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body" style="color: rgb(255, 110, 110);">
+                    Erro ao tentar aplicar mudança. Para mais informações, cheque o console.
+                </div>
+            </div>
+        </div>
+
+        <div class="row h1 text-center d-flex justify-content-center">
+            <div class="col mt-2">Perfil de Caçador</div>
+        </div>
+        <div class="row">
+            <div class="col" style="border-style: solid; border-width: 1px; border-color: gray; border-radius: 20px;">
+                <div class="row h2 mt-4">
+                    <div class="col d-flex justify-content-center">Detalhes Pessoais</div>
+                </div>
+                {{#each info}}
+                <div class="row my-4">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col h4">
+                                <label id="infoLabel-{{info_id}}" for="info-{{info_id}}">{{name}}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <textarea class="form-control acds-element" id="info-{{info_id}}"
+                                    style="background-color: black !important; color: white !important;"
+                                    onchange="infoInput({{info_id}}, this)">{{value}}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-end">
+                <a href="/sheet/1" style="font-size: 21px;">Acessar 1° Página</a>
+            </div>
+        </div>
+        <script src="/js/extrainfo.js"></script>
+    </div>
+</body>
+
+</html>
