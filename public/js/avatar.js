@@ -20,30 +20,32 @@ for (let i = 0; i < attributeStatus.length; i++)
     boxes.push(stat);
 }
 
-$.get('/avatars/def', data =>
+$.get(`/avatars/def?id=${playerID}`, data =>
 {
     def = data.url;
 });
 
-$.get('/avatars/unconscious', data =>
+$.get(`/avatars/unconscious?id=${playerID}`, data =>
 {
     unc = data.url;
 });
 
-$.get('/avatars/mw', data =>
+$.get(`/avatars/mw?id=${playerID}`, data =>
 {
     mw = data.url;
 });
 
-$.get('/avatars/insane', data =>
+$.get(`/avatars/insane?id=${playerID}`, data =>
 {
     ins = data.url;
 });
 
-$.get('/avatars/mwinsane', data =>
+$.get(`/avatars/mwinsane?id=${playerID}`, data =>
 {
     mwins = data.url;
 });
+
+$(document).ready(() => evaluateAvatar());
 
 async function uploadAvatar(ev)
 {
@@ -94,7 +96,6 @@ function attributeStatusChange(id, check)
     });
 }
 
-evaluateAvatar();
 function evaluateAvatar()
 {
     if (boxes[0].checked)
