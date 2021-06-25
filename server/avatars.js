@@ -5,7 +5,6 @@ const path = require('path');
 const fs = require('fs');
 const formidable = require('formidable');
 const cloudinary = require('cloudinary').v2;
-//cloudinary.config(process.env.CLOUDINARY_URL);
 
 
 const bodyParser = require('body-parser');

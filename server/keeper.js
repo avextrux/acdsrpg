@@ -3,6 +3,7 @@ const express = server.express;
 const router = express.Router();
 const db = require('./database');
 const disconnectingSessions = server.disconnectingSessions;
+const cloudinary = require('cloudinary').v2;
 
 router.get('/', async function (req, res)
 {
@@ -27,7 +28,7 @@ router.get('/', async function (req, res)
     {
         const c = characters[i];
         let id = c.player_id;
-        let avatar = `/avatars/def?id=${id}`;
+        let avatar = cloudinary.url(`${id}/def`, {secure: true});
 
         sql = "SELECT info_id, value FROM player_info WHERE player_id = ? AND info_id IN (SELECT info_id FROM info WHERE name = 'Nome')";
         let post = [id];
