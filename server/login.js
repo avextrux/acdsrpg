@@ -5,6 +5,7 @@ var urlParser = bodyParser.urlencoded({extended:false});
 const server = require('./server');
 const express = server.express;
 const router = express.Router();
+const sessions = server.sessions;
 
 router.get('/', (req, res) =>
 {
@@ -48,7 +49,7 @@ router.post('/', urlParser, async function (req, res)
     
     let session = req.session;
 
-    if (session.playerID)
+    if (sessions.includes(session.playerID))
     {
         return res.render('login',
         {
@@ -58,6 +59,7 @@ router.post('/', urlParser, async function (req, res)
     }
     
     session.playerID = id;
+    sessions.push(session.playerID);
 
     if (result[0].name === 'keeper')
         return res.redirect('/keeper');

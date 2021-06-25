@@ -505,6 +505,7 @@ router.get('/player/session/destroy', (req, res) =>
     let disconnecting = setTimeout(() =>
     {
         req.session.destroy();
+        server.sessions.splice(server.sessions.indexOf(playerID), 1);
         disconnectingSessions.delete(playerID);
         console.log(playerID + " DISCONNECTED");
     }, 5000);

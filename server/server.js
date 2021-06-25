@@ -17,6 +17,7 @@ const server = http.createServer(app);
 const io = new Server(server);
 const port = process.env.PORT || 80;
 
+const sessions = [];
 const disconnectingSessions = new Map();
 
 function start()
@@ -27,38 +28,9 @@ function start()
     });
 }
 
-function isSessionActive(address)
-{
-    if (address === undefined)
-        return false;
-    return sessions.get(address) !== undefined;
-}
-
-function isSessionIDActive(id)
-{
-    for (sID in sessions.values())
-    {
-        if (sID === id)
-            return true;
-    }
-    return false;
-}
-
-function getSession(address)
-{
-    return sessions.get(address);
-}
-
-function setSessionActive(active, address, id = -1)
-{
-    if (active)
-        return sessions.set(address, id);
-    else
-        return sessions.delete(address);
-}
-
 module.exports.app = app;
 module.exports.io = io;
+module.exports.sessions = sessions;
 module.exports.disconnectingSessions = disconnectingSessions;
 module.exports.express = express;
 module.exports.start = start;
