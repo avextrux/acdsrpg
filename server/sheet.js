@@ -13,23 +13,24 @@ const dataLength = 15;
 
 router.get('/1', (req, res) =>
 {
-    if (!server.isSessionActive(req.socket.remoteAddress))
+    let session = req.session;
+
+    if (!session.address)
     {
-        res.render('rejected',
+        return res.render('rejected',
         {
             message: 'Sessão não está ativa. Você se esqueceu de logar?'
         });
-        return;
     }
 
-    let sessionID = server.getSession(req.socket.remoteAddress);
+    let playerID = session.playerID;
 
-    sheetData = {sheet_id: sessionID};
+    sheetData = {sheet_id: playerID};
 
     let sql = "SELECT info.info_id, info.name, player_info.value  " +
     "FROM info, player_info  " +
     "WHERE info.info_id = player_info.info_id AND player_info.player_id = ?";
-    let post = [sessionID];
+    let post = [playerID];
 
     db.query(sql, post, (err, info) =>
     {
@@ -193,21 +194,22 @@ function checkSendSheet(res)
 
 router.get('/2', async function (req, res)
 {
-    if (!server.isSessionActive(req.socket.remoteAddress))
+    let session = req.session;
+
+    if (!session.address)
     {
-        res.render('rejected',
+        return res.render('rejected',
         {
             message: 'Sessão não está ativa. Você se esqueceu de logar?'
         });
-        return;
     }
 
-    let sessionID = server.getSession(req.socket.remoteAddress);
+    let playerID = session.playerID;
 
     let sql = "SELECT info.info_id, info.name, player_info.value  " +
     "FROM info, player_info  " +
     "WHERE info.info_id = player_info.info_id AND player_info.player_id = ?";
-    let post = [sessionID];
+    let post = [playerID];
 
     let info = await db.promiseQuery(sql, post).catch(err => {console.log(err)});
     let aux = info.slice(0, 9);
@@ -217,7 +219,7 @@ router.get('/2', async function (req, res)
     res.render('sheetextras',
     {
         info: extraInfo,
-        sheet_id: sessionID
+        sheet_id: playerID
     });
 });
 

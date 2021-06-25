@@ -5,13 +5,14 @@ const db = require('./database');
 
 router.get('/', async function (req, res)
 {
-    if (!server.isSessionActive(req.socket.remoteAddress))
+    let session = req.session;
+
+    if (!session.address)
     {
-        res.render('rejected',
+        return res.render('rejected',
         {
             message: 'Sessão não está ativa. Você se esqueceu de logar?'
         });
-        return;
     }
 
     let sql = "SELECT player_id, login FROM player WHERE player_type_id NOT IN (SELECT player_type_id FROM player_type WHERE name = 'keeper')";

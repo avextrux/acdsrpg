@@ -39,32 +39,29 @@ router.post('/', urlParser, async function (req, res)
 
     if (!exists)
     {
-        res.render('login',
+        return res.render('login',
         {
             color: 'red',
             message: 'Login ou senha incorretos.'
         });
-        return;
     }
+    
+    let session = req.session;
 
-    if (server.isSessionIDActive(id))
+    if (session.address && session.address !== req.socket.remoteAddress)
     {
-        res.render('login',
+        return res.render('login',
         {
             color: 'red',
             message: 'Usuário já está ativo.'
         });
-        return;    
-    }
-
-    server.setSessionActive(true, req.socket.remoteAddress, id);
-
-    if (result[0].name === 'keeper')
-    {
-        res.redirect('/keeper');
-        return;
     }
     
+    session.address = req.socket.remoteAddress;
+    session.playerID = id;
+
+    if (result[0].name === 'keeper')
+        return res.redirect('/keeper');
     res.redirect('/sheet/1');
 })
 
