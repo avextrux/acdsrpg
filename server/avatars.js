@@ -93,7 +93,7 @@ router.post('/player', urlParser, async function (req, res)
             //fs.renameSync(oldPath, newPath);
         }
 
-        res.code(200).send('');
+        res.status(200).send('');
     }
     catch (err)
     {
