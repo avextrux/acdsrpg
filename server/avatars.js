@@ -107,7 +107,7 @@ function loadAvatar(req, res, name)
 {
     try
     {
-        // let id = req.query.id;
+        let id = req.query.id;
         // let p = path.join(__dirname, '..', `/avatars/${id}/`);
         // let files = fs.readdirSync(p);
     
