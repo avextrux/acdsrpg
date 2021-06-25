@@ -2,6 +2,7 @@ const server = require('./server');
 const express = server.express;
 const router = express.Router();
 const db = require('./database');
+const disconnectingSessions = server.disconnectingSessions;
 
 router.get('/', async function (req, res)
 {
@@ -66,6 +67,45 @@ router.get('/', async function (req, res)
     {
         players: players
     });
+});
+
+router.get('/session/retake', (req, res) =>
+{
+    let playerID = req.session.playerID;
+
+    if (playerID === undefined)
+        return res.status(204).send('');
+
+    console.log('RECALL ' + playerID);
+    let disconnecting = disconnectingSessions.get(playerID);
+    if (disconnecting)
+    {
+        console.log('RECONNECTED ' + playerID);
+        clearTimeout(disconnecting);
+    }
+    disconnectingSessions.delete(playerID);
+
+    res.status(200).send('ok');
+});
+
+router.get('/session/destroy', (req, res) =>
+{
+    let playerID = req.session.playerID;
+
+    if (playerID === undefined)
+        return res.status(204).send('');
+
+    console.log('DISCONNECTING ' + playerID);
+    let disconnecting = setTimeout(() =>
+    {
+        req.session.destroy();
+        disconnectingSessions.delete(playerID);
+        console.log("DISCONNECTED " + playerID);
+    }, 5000);
+
+    disconnectingSessions.set(playerID, disconnecting);
+
+    res.status(200).send('ok');
 });
 
 module.exports = router;

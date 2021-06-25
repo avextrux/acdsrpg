@@ -17,31 +17,7 @@ const server = http.createServer(app);
 const io = new Server(server);
 const port = process.env.PORT || 80;
 
-// const sessions = new Map();
-// const disconnectingSessions = new Map();
-
-// io.on('connection', socket =>
-// {
-//     let address = socket.handshake.address;
-//     let timeout = disconnectingSessions.get(address);
-//     if (timeout)
-//     {
-//         clearTimeout(timeout);
-//         disconnectingSessions.delete(address);
-//     }
-
-//     console.log(address);
-    
-//     socket.on('disconnect', reason =>
-//     {
-//         let closeSessionTimeout = setTimeout(() =>
-//         {
-//             sessions.delete(address);
-//             disconnectingSessions.delete(address);
-//         }, 10000);
-//         disconnectingSessions.set(address, closeSessionTimeout);
-//     });
-// });
+const disconnectingSessions = new Map();
 
 function start()
 {
@@ -83,10 +59,7 @@ function setSessionActive(active, address, id = -1)
 
 module.exports.app = app;
 module.exports.io = io;
-// module.exports.getSession = getSession;
-// module.exports.isSessionIDActive = isSessionIDActive;
-// module.exports.isSessionActive = isSessionActive;
-// module.exports.setSessionActive = setSessionActive;
+module.exports.disconnectingSessions = disconnectingSessions;
 module.exports.express = express;
 module.exports.start = start;
 

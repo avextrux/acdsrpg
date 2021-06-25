@@ -5,13 +5,12 @@ const io = server.io;
 
 const bodyParser = require('body-parser');
 var urlParser = bodyParser.urlencoded({extended:false});
+const disconnectingSessions = server.disconnectingSessions;
 
 const db = require('./database');
 
 let sheetData;
 const dataLength = 15;
-
-const disconnectingSessions = new Map();
 
 router.get('/1', (req, res) =>
 {
