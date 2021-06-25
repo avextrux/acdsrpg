@@ -7,8 +7,9 @@ const disconnectingSessions = server.disconnectingSessions;
 router.get('/', async function (req, res)
 {
     let session = req.session;
+    let playerID = session.playerID;
 
-    if (!session.address)
+    if (!playerID)
     {
         return res.render('rejected',
         {
