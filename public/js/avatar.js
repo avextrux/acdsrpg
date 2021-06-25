@@ -10,6 +10,7 @@ const mwinsAvatar = document.getElementById('mwinsaneAvatarFile');
 const uploadAvatarModal = new bootstrap.Modal(document.getElementById('uploadAvatar'));
 
 const avatar = $('#avatar');
+let oldSrc;
 
 for (let i = 0; i < attributeStatus.length; i++)
 {
@@ -82,7 +83,12 @@ function evaluateAvatar()
         src = `/avatars/insane?id=${playerID}`;
     else
         src = `/avatars/def?id=${playerID}`;
+
+    if (src === oldSrc)
+        return;
     
+    oldSrc = src;
+
     $.get(src, data =>
     {
         avatar.attr('src', data.url);

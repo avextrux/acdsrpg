@@ -78,7 +78,7 @@ router.post('/player', urlParser, async function (req, res)
             const name = names[i];
             cloudinary.uploader.upload(file.path,
             {
-               folder: `/${id}/`,
+               folder: `${id}/`,
                format: 'jpg',
                filename_override: `${name}.jpg`
             }, (result, err) =>
