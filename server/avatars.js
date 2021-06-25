@@ -86,11 +86,11 @@ router.post('/player', urlParser, async function (req, res)
                async: true
             }, (result, err) =>
             {
-                if (err)
-                    return console.log(err);
-                    
                 count++;
-                if (count === names.length)
+                console.log(count);
+                if (err)
+                    return console.log("err: " + err);
+                if (count === files.length)
                     res.status(200).send('');
             });
 
@@ -126,7 +126,7 @@ function loadAvatar(req, res, name)
         //     }
         // }
 
-        let url = cloudinary.url(`${id}/${name}.jpg`);
+        let url = cloudinary.url(`${id}/${name}`);
         res.send({url});
     }
     catch (err)
