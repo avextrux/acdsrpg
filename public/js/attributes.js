@@ -254,3 +254,8 @@ function resolveDice(dice, arr)
         arr.push({n, num: dice});
     }
 }
+
+$(window).unload(() =>
+{
+    $.delete('/sheet/player/session');
+});

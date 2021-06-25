@@ -11,8 +11,14 @@ const db = require('./database');
 let sheetData;
 const dataLength = 15;
 
+const disconnectingSessions = new Map();
+
 router.get('/1', (req, res) =>
 {
+    let disconnecting = disconnectingSessions.get(req.socket.remoteAddress);
+    if (disconnecting)
+        clearTimeout(disconnecting);
+
     let session = req.session;
 
     if (!session.address)
@@ -486,6 +492,13 @@ router.post('/player/attributestatus', urlParser, async function (req, res)
     let result;
     result = await db.promiseQuery(sql, post).catch(err => {code = 500, result = err; console.log(err);});
     res.status(code).send(result);
+});
+
+router.delete('/player/session', (req, res) =>
+{
+    let disconnecting = setTimeout(() => req.session.destroy(), 5000);
+    disconnectingSessions.set(req.socket.remoteAddress, disconnecting);
+    res.status(200).send('ok');
 });
 
 module.exports = router;
