@@ -21,5 +21,5 @@ Ficha do Jogador
 ![image](https://user-images.githubusercontent.com/71353674/123519198-3186ae00-d680-11eb-9d8e-e0b7b84e4b8d.png)
 ![image](https://user-images.githubusercontent.com/71353674/123519220-51b66d00-d680-11eb-9d7c-5af01460aaa3.png)
 
-Ficha do Mestre
+Ficha do Mestre (Os dados dos Jogadores visualizados são atualizados dinamicamente)
 ![image](https://user-images.githubusercontent.com/71353674/123519203-3b101600-d680-11eb-9977-ac1d13ed4b13.png)
