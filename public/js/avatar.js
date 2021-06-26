@@ -81,17 +81,16 @@ async function uploadAvatar(ev)
         data: formData,
         success: data =>
         {
-            let url = data.url;
-            avatar.attr('src', url);
+            evaluateAvatar();
+            uploadAvatarModal.hide();
         },
         error: (err) =>
         {
             console.log(err);
+            uploadAvatarModal.hide();
             failureToast.show();
         }
     });
-    
-    uploadAvatarModal.hide();
 }
 
 function attributeStatusChange(id, check)

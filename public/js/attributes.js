@@ -254,13 +254,3 @@ function resolveDice(dice, arr)
         arr.push({n, num: dice});
     }
 }
-
-$(document).ready(() =>
-{
-    $.get('/sheet/player/session/retake');
-});
-
-$(window).on('beforeunload', ev =>
-{
-    $.get('/sheet/player/session/destroy');
-});

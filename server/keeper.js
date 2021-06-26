@@ -2,22 +2,10 @@ const server = require('./server');
 const express = server.express;
 const router = express.Router();
 const db = require('./database');
-const disconnectingSessions = server.disconnectingSessions;
 const cloudinary = require('cloudinary').v2;
 
 router.get('/', async function (req, res)
 {
-    let session = req.session;
-    let playerID = session.playerID;
-
-    if (!playerID)
-    {
-        return res.render('rejected',
-        {
-            message: 'Sessão não está ativa. Você se esqueceu de logar?'
-        });
-    }
-
     let sql = "SELECT player_id, login FROM player WHERE player_type_id NOT IN (SELECT player_type_id FROM player_type WHERE name = 'keeper')";
 
     let characters = await db.promiseQuery(sql);
@@ -69,46 +57,6 @@ router.get('/', async function (req, res)
     {
         players: players
     });
-});
-
-router.get('/session/retake', (req, res) =>
-{
-    let playerID = req.session.playerID;
-
-    if (playerID === undefined)
-        return res.status(204).send('');
-
-    console.log('RECALL ' + playerID);
-    let disconnecting = disconnectingSessions.get(playerID);
-    if (disconnecting)
-    {
-        console.log('RECONNECTED ' + playerID);
-        clearTimeout(disconnecting);
-    }
-    disconnectingSessions.delete(playerID);
-
-    res.status(200).send('ok');
-});
-
-router.get('/session/destroy', (req, res) =>
-{
-    let playerID = req.session.playerID;
-
-    if (playerID === undefined)
-        return res.status(204).send('');
-
-    console.log('DISCONNECTING ' + playerID);
-    let disconnecting = setTimeout(() =>
-    {
-        req.session.destroy();
-        server.sessions.splice(server.sessions.indexOf(playerID), 1);
-        disconnectingSessions.delete(playerID);
-        console.log("DISCONNECTED " + playerID);
-    }, 5000);
-
-    disconnectingSessions.set(playerID, disconnecting);
-
-    res.status(200).send('ok');
 });
 
 module.exports = router;

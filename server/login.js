@@ -47,19 +47,7 @@ router.post('/', urlParser, async function (req, res)
         });
     }
     
-    let session = req.session;
-
-    if (sessions.includes(session.playerID))
-    {
-        return res.render('login',
-        {
-            color: 'red',
-            message: 'Usuário já está ativo.'
-        });
-    }
-    
     session.playerID = id;
-    sessions.push(session.playerID);
 
     if (result[0].name === 'keeper')
         return res.redirect('/keeper');

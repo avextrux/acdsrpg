@@ -6,9 +6,6 @@ const express = server.express;
 const router = express.Router();
 var urlParser = bodyParser.urlencoded({extended:false});
 
-const path = require('path');
-const fs = require('fs');
-
 router.get('/', (req, res) =>
 {
     res.render('register');

@@ -1,11 +1,8 @@
 const server = require('./server');
 const express = server.express;
 const router = express.Router();
-const path = require('path');
-const fs = require('fs');
 const formidable = require('formidable');
 const cloudinary = require('cloudinary').v2;
-
 
 const bodyParser = require('body-parser');
 var urlParser = bodyParser.urlencoded({extended:false});
@@ -72,19 +69,15 @@ router.post('/player', urlParser, async function (req, res)
         }, (result, err) =>
         {
             count++;
-            console.log('uploaded ' + count);
             if (count === files.length)
-            {
                 res.status(200).send('');
-                console.log('uploaded all');
-            }
         });
     }
 });
 
 function loadAvatar(req, res, name)
 {
-    let id = req.session.playerID;
+    let id = req.query.playerID;
     let url = cloudinary.url(`${id}/${name}`, {secure: true});
     res.send({url});
 }

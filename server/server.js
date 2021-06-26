@@ -17,9 +17,6 @@ const server = http.createServer(app);
 const io = new Server(server);
 const port = process.env.PORT || 80;
 
-const sessions = [];
-const disconnectingSessions = new Map();
-
 function start()
 {
     server.listen(port, () =>
@@ -30,8 +27,6 @@ function start()
 
 module.exports.app = app;
 module.exports.io = io;
-module.exports.sessions = sessions;
-module.exports.disconnectingSessions = disconnectingSessions;
 module.exports.express = express;
 module.exports.start = start;
 

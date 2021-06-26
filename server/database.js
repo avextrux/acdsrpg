@@ -1,7 +1,6 @@
 const mysql = require('mysql');
 
 let config;
-console.log(process.env.JAWSDB_URL);
 if(process.env.JAWSDB_URL)
 {
     config = process.env.JAWSDB_URL;

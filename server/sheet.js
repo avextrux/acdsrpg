@@ -5,7 +5,6 @@ const io = server.io;
 
 const bodyParser = require('body-parser');
 var urlParser = bodyParser.urlencoded({extended:false});
-const disconnectingSessions = server.disconnectingSessions;
 
 const db = require('./database');
 
@@ -14,16 +13,7 @@ const dataLength = 15;
 
 router.get('/1', (req, res) =>
 {
-    let session = req.session;
-    let playerID = session.playerID;
-
-    if (!playerID)
-    {
-        return res.render('rejected',
-        {
-            message: 'Sessão não está ativa. Você se esqueceu de logar?'
-        });
-    }
+    let playerID = req.session.playerID;
 
     sheetData = {sheet_id: playerID};
 
@@ -194,7 +184,7 @@ function checkSendSheet(res)
 
 router.get('/2', async function (req, res)
 {
-    let playerID = session.playerID;
+    let playerID = req.session.playerID;
 
     let sql = "SELECT info.info_id, info.name, player_info.value  " +
     "FROM info, player_info  " +
@@ -476,43 +466,6 @@ router.post('/player/attributestatus', urlParser, async function (req, res)
     let result;
     result = await db.promiseQuery(sql, post).catch(err => {code = 500, result = err; console.log(err);});
     res.status(code).send(result);
-});
-
-router.get('/player/session/retake', (req, res) =>
-{
-    let playerID = req.session.playerID;
-
-    console.log('RECALL ' + playerID);
-    let disconnecting = disconnectingSessions.get(playerID);
-    if (disconnecting)
-    {
-        console.log('RECONNECTED ' + playerID);
-        clearTimeout(disconnecting);
-    }
-    disconnectingSessions.delete(playerID);
-
-    res.status(200).send('ok');
-});
-
-router.get('/player/session/destroy', (req, res) =>
-{
-    let playerID = req.session.playerID;
-
-    if (playerID === undefined)
-        return res.status(204).send('');
-
-    console.log('DISCONNECTING ' + playerID);
-    let disconnecting = setTimeout(() =>
-    {
-        req.session.destroy();
-        server.sessions.splice(server.sessions.indexOf(playerID), 1);
-        disconnectingSessions.delete(playerID);
-        console.log(playerID + " DISCONNECTED");
-    }, 5000);
-
-    disconnectingSessions.set(playerID, disconnecting);
-
-    res.status(200).send('ok');
 });
 
 module.exports = router;

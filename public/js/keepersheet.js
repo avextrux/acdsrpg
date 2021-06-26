@@ -68,13 +68,3 @@ socket.on('char changed', content =>
 
     element.text(value);
 });
-
-$(document).ready(() =>
-{
-    $.get('/keeper/session/retake');
-});
-
-$(window).on('beforeunload', ev =>
-{
-    $.get('/keeper/session/destroy');
-});
