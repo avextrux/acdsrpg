@@ -112,16 +112,16 @@ function attributeStatusChange(id, check)
 function evaluateAvatar()
 {
     if (boxes[0].checked)
-        avatar.attr('src', `${unc}?v=${Date.now().toString()}`);
+        avatar.attr('src', `${unc}?dat=${Date.now().toString()}`);
     else if (boxes[1].checked)
         if (boxes[2].checked || boxes[3].checked)
-            avatar.attr('src', `${mwins}?v=${Date.now().toString()}`);
+            avatar.attr('src', `${mwins}?dat=${Date.now().toString()}`);
         else
-            avatar.attr('src', `${mw}?v=${Date.now().toString()}`);
+            avatar.attr('src', `${mw}?dat=${Date.now().toString()}`);
     else if (boxes[2].checked || boxes[3].checked)
-        avatar.attr('src', `${ins}?v=${Date.now().toString()}`);
+        avatar.attr('src', `${ins}?dat=${Date.now().toString()}`);
     else
-        avatar.attr('src', `${def}?v=${Date.now().toString()}`);
+        avatar.attr('src', `${def}?dat=${Date.now().toString()}`);
 }
 
 function generalDiceClick()

@@ -2,7 +2,8 @@ const server = require('./server');
 const express = server.express;
 const router = express.Router();
 const RandomOrg = require('random-org');
-const random = new RandomOrg({apiKey: 'da77cc30-6c4d-4ed9-912a-1daefcbdd762'});
+const apiKey = process.env.RANDOM_ORG_KEY;
+const random = new RandomOrg({apiKey: apiKey});
 
 function nextInt(min, max, n)
 {
