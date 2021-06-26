@@ -5,7 +5,6 @@ var urlParser = bodyParser.urlencoded({extended:false});
 const server = require('./server');
 const express = server.express;
 const router = express.Router();
-const sessions = server.sessions;
 
 router.get('/', (req, res) =>
 {
