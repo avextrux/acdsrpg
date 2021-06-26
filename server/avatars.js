@@ -77,7 +77,7 @@ router.post('/player', urlParser, async function (req, res)
 
 function loadAvatar(req, res, name)
 {
-    let id = req.query.playerID;
+    let id = req.session.playerID;
     let url = cloudinary.url(`${id}/${name}`, {secure: true});
     res.send({url});
 }

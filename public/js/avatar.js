@@ -82,15 +82,15 @@ async function uploadAvatar(ev)
         success: data =>
         {
             evaluateAvatar();
-            uploadAvatarModal.hide();
         },
         error: (err) =>
         {
             console.log(err);
-            uploadAvatarModal.hide();
             failureToast.show();
         }
     });
+    
+    uploadAvatarModal.hide();
 }
 
 function attributeStatusChange(id, check)
