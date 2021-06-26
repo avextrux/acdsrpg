@@ -15,6 +15,14 @@ router.get('/1', (req, res) =>
 {
     let playerID = req.session.playerID;
 
+    if (!playerID)
+    {
+        return res.render('rejected',
+        {
+            message: 'Você não possui uma sessão ativa. Esqueceu-se de logar?' 
+        });
+    }
+
     sheetData = {sheet_id: playerID};
 
     let sql = "SELECT info.info_id, info.name, player_info.value  " +
@@ -185,6 +193,14 @@ function checkSendSheet(res)
 router.get('/2', async function (req, res)
 {
     let playerID = req.session.playerID;
+
+    if (!playerID)
+    {
+        return res.render('rejected',
+        {
+            message: 'Você não possui uma sessão ativa. Esqueceu-se de logar?' 
+        });
+    }
 
     let sql = "SELECT info.info_id, info.name, player_info.value  " +
     "FROM info, player_info  " +
