@@ -46,7 +46,7 @@ router.post('/', urlParser, async function (req, res)
         });
     }
     
-    session.playerID = id;
+    req.session.playerID = id;
 
     if (result[0].name === 'keeper')
         return res.redirect('/keeper');
