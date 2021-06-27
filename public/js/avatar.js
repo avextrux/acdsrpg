@@ -137,4 +137,5 @@ function generalDiceClick(event)
     rollDices(res);
     generalDiceModal.hide();
     diceRoll.show();
+    generalDiceText.val('');
 }
