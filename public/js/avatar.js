@@ -135,5 +135,6 @@ function generalDiceClick(event)
     event.preventDefault();
     let res = resolveDices(generalDiceText.val());
     rollDices(res);
+    generalDiceModal.hide();
     diceRoll.show();
 }
