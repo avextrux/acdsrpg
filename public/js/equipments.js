@@ -142,7 +142,7 @@ function equipmentDiceClick(id, damageField, ammoTxt)
     if (ammoPass)
     {
         diceRoll.show();
-        let dmg = resolveDices(damageField.textContent.toLowerCase().replace(/\s+/g, ''));
+        let dmg = resolveDices(damageField.textContent);
         rollDices(dmg);
     }
     else

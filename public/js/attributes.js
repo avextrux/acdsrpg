@@ -223,7 +223,7 @@ function resolveSuccessType(num, roll, showBranches)
 
 function resolveDices(str)
 {
-    let dices = str.split('+');
+    let dices = str.replace(/\s+/g, '').split('+');
     let arr = [];
     for (let i = 0; i < dices.length; i++)
     {
@@ -233,8 +233,10 @@ function resolveDices(str)
     return arr;
 }
 
-function resolveDice(dice, arr)
+function resolveDice(_dice, arr)
 {
+    let dice = _dice.toLowerCase();
+
     if(dice.includes('db'))
         return resolveDice(specs.get('Dano Bônus'), arr);
     

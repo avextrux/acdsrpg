@@ -17,7 +17,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    
+
     <script>const playerID = {{ sheet_id }}</script>
 
     <title>As Crônicas das Sombras</title>
@@ -36,7 +36,7 @@
                             <h5 class="modal-title">Resultado da
                                 Rolagem</h5>
                         </div>
-                        <div id="dice-roll-body" class="modal-body text-center"
+                        <div class="modal-body text-center"
                             style="background-color: black; border: none; height: 100px;">
                             <div class="row">
                                 <div class="col">
@@ -58,6 +58,34 @@
                                         style="display: none; font-size: 16px;"></div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="modal-footer" style="background-color: black; border: none;">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Selective dice roll-->
+            <div class="modal fade" id="generalDiceRoll" tabindex="-1" aria-labelledby="generalDiceRollLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background-color: black; border: none;">
+                            <h5 class="modal-title">Resultado da
+                                Rolagem</h5>
+                        </div>
+                        <div class="modal-body text-center"
+                            style="background-color: black; border: none; height: 100px;">
+                            <form onsubmit="generalDiceClick(event)">
+                                <div class="row">
+                                    <div class="col">
+                                        <input class="acds-element" id="generalDiceText" type="text"
+                                            placeholder="Dado" />
+                                        <input type="submit" value="Rolar"/>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                         <div class="modal-footer" style="background-color: black; border: none;">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>

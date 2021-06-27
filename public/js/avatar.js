@@ -10,6 +10,9 @@ const insAvatarFile = document.getElementById('insaneAvatarFile');
 const mwinsAvatarFile = document.getElementById('mwinsaneAvatarFile');
 
 const uploadAvatarModal = new bootstrap.Modal(document.getElementById('uploadAvatar'));
+const generalDiceModal = new bootstrap.Modal(document.getElementById('generalDiceRoll'));
+
+const generalDiceText = $('#generalDiceText');
 
 const avatar = $('#avatar');
 let oldSrc;
@@ -20,45 +23,48 @@ for (let i = 0; i < attributeStatus.length; i++)
     boxes.push(stat);
 }
 
-let count = 0;
-$.get(`/avatars/def`, data =>
+$(document).ready(() =>
 {
-    def = data.url;
-    count++;
-    if (count === 5)
-        evaluateAvatar();
-});
-
-$.get(`/avatars/unconscious`, data =>
-{
-    unc = data.url;
-    count++;
-    if (count === 5)
-        evaluateAvatar();
-});
-
-$.get(`/avatars/mw`, data =>
-{
-    mw = data.url;
-    count++;
-    if (count === 5)
-        evaluateAvatar();
-});
-
-$.get(`/avatars/insane`, data =>
-{
-    ins = data.url;
-    count++;
-    if (count === 5)
-        evaluateAvatar();
-});
-
-$.get(`/avatars/mwinsane`, data =>
-{
-    mwins = data.url;
-    count++;
-    if (count === 5)
-        evaluateAvatar();
+    let count = 0;
+    $.get(`/avatars/def`, data =>
+    {
+        def = data.url;
+        count++;
+        if (count === 5)
+            evaluateAvatar();
+    });
+    
+    $.get(`/avatars/unconscious`, data =>
+    {
+        unc = data.url;
+        count++;
+        if (count === 5)
+            evaluateAvatar();
+    });
+    
+    $.get(`/avatars/mw`, data =>
+    {
+        mw = data.url;
+        count++;
+        if (count === 5)
+            evaluateAvatar();
+    });
+    
+    $.get(`/avatars/insane`, data =>
+    {
+        ins = data.url;
+        count++;
+        if (count === 5)
+            evaluateAvatar();
+    });
+    
+    $.get(`/avatars/mwinsane`, data =>
+    {
+        mwins = data.url;
+        count++;
+        if (count === 5)
+            evaluateAvatar();
+    });
 });
 
 async function uploadAvatar(ev)
@@ -124,8 +130,10 @@ function evaluateAvatar()
         avatar.attr('src', `${def}?dat=${Date.now().toString()}`);
 }
 
-function generalDiceClick()
+function generalDiceClick(event)
 {
+    event.preventDefault();
+    let res = resolveDices(generalDiceText.text());
     diceRoll.show();
-    rollDice();
+    rollDices(res);
 }
