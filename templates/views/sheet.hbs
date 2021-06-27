@@ -71,10 +71,6 @@
                 aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
-                        <div class="modal-header" style="background-color: black; border: none;">
-                            <h5 class="modal-title">Resultado da
-                                Rolagem</h5>
-                        </div>
                         <div class="modal-body text-center"
                             style="background-color: black; border: none; height: 100px;">
                             <form onsubmit="generalDiceClick(event)">
@@ -82,7 +78,7 @@
                                     <div class="col">
                                         <input class="acds-element" id="generalDiceText" type="text"
                                             placeholder="Dado" />
-                                        <input type="submit" value="Rolar"/>
+                                        <input type="submit" class="btn btn-primary" value="Rolar"/>
                                     </div>
                                 </div>
                             </form>
@@ -388,7 +384,8 @@
                             data-bs-toggle="modal" data-bs-target="#uploadAvatar">
                     </div>
                     <div class="col-2 align-self-center">
-                        <img class="img-fluid acds-clickable" src="/assets/dice.png" onclick="generalDiceClick()">
+                        <img class="img-fluid acds-clickable" src="/assets/dice.png"
+                        data-bs-toggle="modal" data-bs-target="#generalDiceRoll" >
                     </div>
                 </div>
                 <div class="row my-3">
