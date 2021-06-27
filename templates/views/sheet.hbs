@@ -71,21 +71,24 @@
                 aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
-                        <div class="modal-body text-center"
-                            style="background-color: black; border: none; height: 100px;">
-                            <form onsubmit="generalDiceClick(event)">
+                        <div class="modal-header" style="background-color: black; border: none;">
+                            <h5 class="modal-title">Dado Personalizado</h5>
+                        </div>
+                        <form onsubmit="generalDiceClick(event)">
+                            <div class="modal-body text-center"
+                                style="background-color: black; border: none; height: 100px;">
                                 <div class="row">
                                     <div class="col">
                                         <input class="acds-element" id="generalDiceText" type="text"
                                             placeholder="Dado" />
-                                        <input type="submit" class="btn btn-primary" value="Rolar"/>
                                     </div>
                                 </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer" style="background-color: black; border: none;">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                        </div>
+                            </div>
+                            <div class="modal-footer" style="background-color: black; border: none;">
+                                <input type="submit" class="btn btn-primary" data-bs-dismiss="modal" value="Rolar" />
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -384,8 +387,8 @@
                             data-bs-toggle="modal" data-bs-target="#uploadAvatar">
                     </div>
                     <div class="col-2 align-self-center">
-                        <img class="img-fluid acds-clickable" src="/assets/dice.png"
-                        data-bs-toggle="modal" data-bs-target="#generalDiceRoll" >
+                        <img class="img-fluid acds-clickable" src="/assets/dice.png" data-bs-toggle="modal"
+                            data-bs-target="#generalDiceRoll">
                     </div>
                 </div>
                 <div class="row my-3">

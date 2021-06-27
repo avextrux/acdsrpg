@@ -133,7 +133,7 @@ function evaluateAvatar()
 function generalDiceClick(event)
 {
     event.preventDefault();
-    let res = resolveDices(generalDiceText.text());
-    diceRoll.show();
+    let res = resolveDices(generalDiceText.val());
     rollDices(res);
+    diceRoll.show();
 }
